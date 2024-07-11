@@ -3,15 +3,26 @@ import { changeEmail } from "../redux/userSlice";
 
 const Email = () => {
 
-    const email = useSelector((state) => state.user.email);
+    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
     const handleChange = (e) => {
-        dispatch(changeEmail(e.target.value))
+        e.preventDefault();
+        const newData = {
+            name: e.target.elements.firstname.value,
+            username: e.target.elements.username.value,
+            email: e.target.elements.useremail.value
+        }
+        dispatch(changeEmail(newData));
     }
 
     return (
-        <input type="email" value={email} placeholder="Email" onChange={handleChange} />
+        <form onSubmit={handleChange}>
+            <input type="text" defaultValue={user.name} placeholder="Email" name="firstname" />
+            <input type="email" defaultValue={user.email} placeholder="Email" name="useremail"/>
+            <input type="text" defaultValue={user.username} placeholder="Username" name="username"/>
+            <input type="submit" value="Send changes" />
+        </form>
     )
 };
 
